@@ -77,6 +77,10 @@ inputs:
     description: GitHub Access Token
     required: false
     default: ${{ github.token }}
+  coverage:
+    description: unit test coverage value
+    required: true
+    default: 0
 outputs:
   conclusion:
     description: |
