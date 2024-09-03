@@ -90,10 +90,10 @@ function getByteLength(text: string): number {
   return Buffer.byteLength(text, 'utf8')
 }
 
-function renderReport(results: TestRunResult[], options: ReportOptions): string[] {
+function renderReport(results: TestRunResult[], options: ReportOptions, coverage: number): string[] {
   const sections: string[] = []
   const badge = getReportBadge(results)
-  const coverageBadge = getCoverageReportBadge(core.getInput('coverage', { required: true }))
+  const coverageBadge = getCoverageReportBadge(coverage)
   sections.push(badge)
   sections.push(coverageBadge)
 
@@ -110,7 +110,7 @@ function getReportBadge(results: TestRunResult[]): string {
   return getBadge(passed, failed, skipped)
 }
 
-function getCoverageReportBadge(results: TestRunResult[]): string {
+function getCoverageReportBadge(coverage: number): string {
   return getCoverageBadge(coverage)
 }
 
