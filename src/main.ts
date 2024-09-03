@@ -47,6 +47,7 @@ class TestReporter {
   readonly token = core.getInput('token', {required: true})
   readonly octokit: InstanceType<typeof GitHub>
   readonly context = getCheckRunContext()
+  readonly coverage = core.getInput('coverage', {required: true})
 
   constructor() {
     this.octokit = github.getOctokit(this.token)
@@ -176,7 +177,7 @@ class TestReporter {
     core.info('Creating report summary')
     const {listSuites, listTests, onlySummary} = this
     const baseUrl = createResp.data.html_url as string
-    const summary = getReport(results, {listSuites, listTests, baseUrl, onlySummary})
+    const summary = getReport(results, {listSuites, listTests, baseUrl, onlySummary}, this.coverage)
 
     core.info('Creating annotations')
     const annotations = getAnnotations(results, this.maxAnnotations)

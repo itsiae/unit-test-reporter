@@ -21,7 +21,7 @@ const defaultOptions: ReportOptions = {
   onlySummary: false
 }
 
-export function getReport(results: TestRunResult[], options: ReportOptions = defaultOptions): string {
+export function getReport(results: TestRunResult[], options: ReportOptions = defaultOptions, coverage: number): string {
   core.info('Generating check run summary')
 
   applySort(results)
@@ -93,7 +93,9 @@ function getByteLength(text: string): number {
 function renderReport(results: TestRunResult[], options: ReportOptions): string[] {
   const sections: string[] = []
   const badge = getReportBadge(results)
+  const coverageBadge = getCoverageReportBadge(core.getInput('coverage', { required: true }))
   sections.push(badge)
+  sections.push(coverageBadge)
 
   const runs = getTestRunsReport(results, options)
   sections.push(...runs)
@@ -106,6 +108,24 @@ function getReportBadge(results: TestRunResult[]): string {
   const skipped = results.reduce((sum, tr) => sum + tr.skipped, 0)
   const failed = results.reduce((sum, tr) => sum + tr.failed, 0)
   return getBadge(passed, failed, skipped)
+}
+
+function getCoverageReportBadge(results: TestRunResult[]): string {
+  return getCoverageBadge(coverage)
+}
+
+function getCoverageBadge(coverage: number): string {
+  let color = 'red'
+  if (coverage > 24 && coverage < 50) {
+    color = 'orange'
+  } else if (coverage > 49 && coverage < 75) {
+    color = 'yellow'
+  } else if (coverage > 74) {
+    color = 'green'
+  }
+  const hint = 'coverage'
+  const uri = encodeURIComponent(`coverage'-${color}`)
+  return `![${hint}](https://img.shields.io/badge/${uri})`
 }
 
 function getBadge(passed: number, failed: number, skipped: number): string {
