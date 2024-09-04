@@ -21,7 +21,7 @@ const defaultOptions: ReportOptions = {
   onlySummary: false
 }
 
-export function getReport(results: TestRunResult[], options: ReportOptions = defaultOptions, coverage: number): string {
+export function getReport(results: TestRunResult[], options: ReportOptions = defaultOptions, coverage: string): string {
   core.info('Generating check run summary')
 
   applySort(results)
@@ -90,7 +90,7 @@ function getByteLength(text: string): number {
   return Buffer.byteLength(text, 'utf8')
 }
 
-function renderReport(results: TestRunResult[], options: ReportOptions, coverage: number): string[] {
+function renderReport(results: TestRunResult[], options: ReportOptions, coverage: string): string[] {
   const sections: string[] = []
   const badge = getReportBadge(results)
   const coverageBadge = getCoverageReportBadge(coverage)
@@ -110,18 +110,18 @@ function getReportBadge(results: TestRunResult[]): string {
   return getBadge(passed, failed, skipped)
 }
 
-function getCoverageReportBadge(coverage: number): string {
+function getCoverageReportBadge(coverage: string): string {
   return getCoverageBadge(coverage)
 }
 
-function getCoverageBadge(coverage: number): string {
+function getCoverageBadge(coverage: string): string {
   let color = 'red';
 
-  if (coverage >= 25 && coverage < 50) {
+  if (Number(coverage) >= 25 && Number(coverage) < 50) {
     color = 'orange';
-  } else if (coverage >= 50 && coverage < 75) {
+  } else if (Number(coverage) >= 50 && Number(coverage) < 75) {
     color = 'yellow';
-  } else if (coverage >= 75) {
+  } else if (Number(coverage) >= 75) {
     color = 'green';
   }
 

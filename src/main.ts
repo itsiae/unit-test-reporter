@@ -144,7 +144,7 @@ class TestReporter {
     }
   }
 
-  async createReport(parser: TestParser, name: string, files: FileContent[]): Promise<TestRunResult[]> {
+  async createReport(parser: TestParser, name: string, files: FileContent[], coverage: string): Promise<TestRunResult[]> {
     if (files.length === 0) {
       core.warning(`No file matches path ${this.path}`)
       return []
@@ -177,7 +177,7 @@ class TestReporter {
     core.info('Creating report summary')
     const {listSuites, listTests, onlySummary} = this
     const baseUrl = createResp.data.html_url as string
-    const summary = getReport(results, {listSuites, listTests, baseUrl, onlySummary}, this.coverage)
+    const summary = getReport(results, {listSuites, listTests, baseUrl, onlySummary}, coverage)
 
     core.info('Creating annotations')
     const annotations = getAnnotations(results, this.maxAnnotations)
