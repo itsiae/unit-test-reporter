@@ -27,7 +27,7 @@ export function getReport(results: TestRunResult[], options: ReportOptions = def
   applySort(results)
 
   const opts = {...options}
-  let lines = renderReport(results, opts)
+  let lines = renderReport(results, opts, coverage)
   let report = lines.join('\n')
 
   if (getByteLength(report) <= MAX_REPORT_LENGTH) {
@@ -37,7 +37,7 @@ export function getReport(results: TestRunResult[], options: ReportOptions = def
   if (opts.listTests === 'all') {
     core.info("Test report summary is too big - setting 'listTests' to 'failed'")
     opts.listTests = 'failed'
-    lines = renderReport(results, opts)
+    lines = renderReport(results, opts, coverage)
     report = lines.join('\n')
     if (getByteLength(report) <= MAX_REPORT_LENGTH) {
       return report
@@ -126,7 +126,7 @@ function getCoverageBadge(coverage: number): string {
   }
 
   const hint = 'coverage';
-  const uri = `coverage-${coverage}-${color}`;
+  const uri = encodeURIComponent(`coverage-${coverage}-${color}`);
   return `![${hint}](https://img.shields.io/badge/${uri})`;
 }
 
