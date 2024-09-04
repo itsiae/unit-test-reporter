@@ -109,7 +109,7 @@ class TestReporter {
     const parser = this.getParser(this.reporter, options)
 
     const coverage = this.coverage;
-    core.info(`Received coverage value of: '${coverage}'%`);
+    core.info(`Received coverage value of: ${coverage}%`);
 
     const results: TestRunResult[] = []
     const input = await inputProvider.load()

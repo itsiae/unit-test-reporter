@@ -23,7 +23,7 @@ const defaultOptions: ReportOptions = {
 
 export function getReport(results: TestRunResult[], options: ReportOptions = defaultOptions, coverage: string): string {
   core.info('Generating check run summary')
-  core.info(`Code Coverage is at '${coverage}'%`);
+  core.info(`Code Coverage is at ${coverage}%`);
 
   applySort(results)
 
