@@ -115,17 +115,19 @@ function getCoverageReportBadge(coverage: number): string {
 }
 
 function getCoverageBadge(coverage: number): string {
-  let color = 'red'
-  if (coverage > 24 && coverage < 50) {
-    color = 'orange'
-  } else if (coverage > 49 && coverage < 75) {
-    color = 'yellow'
-  } else if (coverage > 74) {
-    color = 'green'
+  let color = 'red';
+
+  if (coverage >= 25 && coverage < 50) {
+    color = 'orange';
+  } else if (coverage >= 50 && coverage < 75) {
+    color = 'yellow';
+  } else if (coverage >= 75) {
+    color = 'green';
   }
-  const hint = 'coverage'
-  const uri = encodeURIComponent(`coverage'-${color}`)
-  return `![${hint}](https://img.shields.io/badge/${uri})`
+
+  const hint = 'coverage';
+  const uri = encodeURIComponent(`coverage-${coverage}-${color}`);
+  return `![${hint}](https://img.shields.io/badge/${uri})`;
 }
 
 function getBadge(passed: number, failed: number, skipped: number): string {
