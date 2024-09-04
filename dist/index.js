@@ -373,7 +373,7 @@ class TestReporter {
             }
         });
     }
-    createReport(parser, name, files) {
+    createReport(parser, name, files, coverage) {
         return __awaiter(this, void 0, void 0, function* () {
             if (files.length === 0) {
                 core.warning(`No file matches path ${this.path}`);
