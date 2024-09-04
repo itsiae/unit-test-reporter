@@ -1787,7 +1787,7 @@ function getCoverageBadge(coverage) {
   }
 
   const hint = 'coverage';
-  const uri = encodeURIComponent(`coverage-${coverage}-${color}`);
+  const uri = encodeURIComponent(`coverage-${coverage}%-${color}`);
   return `![${hint}](https://img.shields.io/badge/${uri})`;
 }
 function getTestRunsReport(testRuns, options) {
