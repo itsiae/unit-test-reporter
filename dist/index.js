@@ -345,7 +345,7 @@ class TestReporter {
             for (const [reportName, files] of Object.entries(input)) {
                 try {
                     core.startGroup(`Creating test report ${reportName}`);
-                    const tr = yield this.createReport(parser, reportName, files);
+                    const tr = yield this.createReport(parser, reportName, files, this.coverage);
                     results.push(...tr);
                 }
                 finally {
