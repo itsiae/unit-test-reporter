@@ -108,12 +108,15 @@ class TestReporter {
     core.info(`Using test report parser '${this.reporter}'`)
     const parser = this.getParser(this.reporter, options)
 
+    const coverage = this.coverage;
+    core.info(`Received coverage value of: '${coverage}'%`);
+
     const results: TestRunResult[] = []
     const input = await inputProvider.load()
     for (const [reportName, files] of Object.entries(input)) {
       try {
         core.startGroup(`Creating test report ${reportName}`)
-        const tr = await this.createReport(parser, reportName, files, this.coverage)
+        const tr = await this.createReport(parser, reportName, files, coverage)
         results.push(...tr)
       } finally {
         core.endGroup()
