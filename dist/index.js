@@ -1675,11 +1675,12 @@ const defaultOptions = {
     baseUrl: '',
     onlySummary: false
 };
-function getReport(results, options = defaultOptions) {
+function getReport(results, options = defaultOptions, coverage) {
     core.info('Generating check run summary');
+    core.info(`Code Coverage: ${coverage}%`);
     applySort(results);
     const opts = Object.assign({}, options);
-    let lines = renderReport(results, opts);
+    let lines = renderReport(results, opts, coverage);
     let report = lines.join('\n');
     if (getByteLength(report) <= MAX_REPORT_LENGTH) {
         return report;
@@ -1687,7 +1688,7 @@ function getReport(results, options = defaultOptions) {
     if (opts.listTests === 'all') {
         core.info("Test report summary is too big - setting 'listTests' to 'failed'");
         opts.listTests = 'failed';
-        lines = renderReport(results, opts);
+        lines = renderReport(results, opts, coverage);
         report = lines.join('\n');
         if (getByteLength(report) <= MAX_REPORT_LENGTH) {
             return report;
@@ -1732,10 +1733,12 @@ function applySort(results) {
 function getByteLength(text) {
     return Buffer.byteLength(text, 'utf8');
 }
-function renderReport(results, options) {
+function renderReport(results, options, coverage) {
     const sections = [];
     const badge = getReportBadge(results);
     sections.push(badge);
+    const coverageBadge = getCoverageBadge(coverage);
+    sections.push(coverageBadge);
     const runs = getTestRunsReport(results, options);
     sections.push(...runs);
     return sections;
@@ -1768,6 +1771,24 @@ function getBadge(passed, failed, skipped) {
     const hint = failed > 0 ? 'Tests failed' : 'Tests passed successfully';
     const uri = encodeURIComponent(`tests-${message}-${color}`);
     return `![${hint}](https://img.shields.io/badge/${uri})`;
+}
+function getCoverageReportBadge(coverage) {
+  return getCoverageBadge(coverage)
+}
+function getCoverageBadge(coverage) {
+  let color = 'red';
+
+  if (Number(coverage) >= 25 && Number(coverage) < 50) {
+    color = 'orange';
+  } else if (Number(coverage) >= 50 && Number(coverage) < 75) {
+    color = 'yellow';
+  } else if (Number(coverage) >= 75) {
+    color = 'green';
+  }
+
+  const hint = 'coverage';
+  const uri = encodeURIComponent(`coverage-${coverage}-${color}`);
+  return `![${hint}](https://img.shields.io/badge/${uri})`;
 }
 function getTestRunsReport(testRuns, options) {
     const sections = [];

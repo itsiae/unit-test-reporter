@@ -148,6 +148,7 @@ class TestReporter {
   }
 
   async createReport(parser: TestParser, name: string, files: FileContent[], coverage: string): Promise<TestRunResult[]> {
+    core.info(`Received coverage value of: ${coverage}%`);
     if (files.length === 0) {
       core.warning(`No file matches path ${this.path}`)
       return []
