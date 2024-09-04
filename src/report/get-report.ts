@@ -126,7 +126,7 @@ function getCoverageBadge(coverage: number): string {
   }
 
   const hint = 'coverage';
-  const uri = encodeURIComponent(`coverage-${coverage}-${color}`);
+  const uri = `coverage-${coverage}-${color}`;
   return `![${hint}](https://img.shields.io/badge/${uri})`;
 }
 
